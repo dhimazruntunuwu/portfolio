@@ -1,0 +1,520 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kirana — Web &amp; Android Programmer</title>
+  <meta
+    name="description"
+    content="Portofolio interaktif Kirana, programmer web dan Android yang membangun aplikasi cepat, rapi, dan siap produksi."
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Bricolage+Grotesque:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <canvas id="swarm" aria-hidden="true"></canvas>
+  <div class="scan" id="scan" aria-hidden="true"></div>
+  <div id="wires" aria-hidden="true"></div>
+  <div id="stage" aria-hidden="true"></div>
+
+  <!-- Floating color picker shown during build and toggleable after -->
+  <div class="picker" id="picker" role="dialog" aria-label="Pilih warna aksen">
+    <button type="button" class="swatch sel" data-color="#fff313" data-on="#050506" title="Kuning Listrik" style="background:#fff313"></button>
+    <button type="button" class="swatch" data-color="#2effb5" data-on="#050506" title="Mint Siber" style="background:#2effb5"></button>
+    <button type="button" class="swatch" data-color="#ff6b4a" data-on="#050506" title="Koral Hangat" style="background:#ff6b4a"></button>
+    <button type="button" class="swatch" data-color="#4db8ff" data-on="#050506" title="Biru Langit" style="background:#4db8ff"></button>
+    <button type="button" class="swatch" data-color="#c084fc" data-on="#050506" title="Violet Neon" style="background:#c084fc"></button>
+  </div>
+
+  <!-- Boot overlay before build starts -->
+  <div class="boot" id="boot">
+    <div class="boot-badge" id="bootBadge">KR</div>
+    <p class="boot-hint">
+      Tekan <kbd>Space</kbd> dan <b>18 agen</b> akan membangun halaman ini
+    </p>
+  </div>
+
+  <main id="page">
+    <!-- HERO -->
+    <section class="hero" id="top">
+      <header class="nav" data-layer-box="Navbar">
+        <a class="brand" href="#top" data-layer="Brand badge">
+          <span class="badge">KR</span>
+          <span class="brand-name" data-type>Kirana</span>
+        </a>
+
+        <nav aria-label="Navigasi utama">
+          <a href="#about" data-layer="Nav Tentang">Tentang</a>
+          <a href="#work" data-layer="Nav Karya">Karya</a>
+          <a href="#stack" data-layer="Nav Stack">Stack</a>
+          <a href="#contact" data-layer="Nav Kontak">Kontak</a>
+        </nav>
+
+        <div class="nav-right">
+          <button type="button" class="acc-trigger" id="accTrigger" title="Ganti warna aksen" data-layer="Tombol warna">
+            <i class="acc-dot"></i>
+            <span>Aksen</span>
+          </button>
+          <a class="status-pill" href="#contact" data-layer="Status ketersediaan">
+            <i class="pulse"></i>
+            <span>Siap kolaborasi</span>
+          </a>
+        </div>
+      </header>
+
+      <svg class="mega" viewBox="0 0 1320 270" aria-hidden="true" data-layer="Judul latar PROGRAMMER">
+        <text x="50%" y="232" text-anchor="middle">PROGRAMMER</text>
+      </svg>
+
+      <div class="intro" data-layer-box="Hero intro">
+        <span class="hello" data-layer="Sapaan pembuka" data-type>Halo, saya</span>
+        <h1 class="name" data-layer="Nama utama">KIRANA.</h1>
+        <p class="role" data-layer="Peran utama">
+          <i></i>
+          <span data-type>Programmer Web &amp; Android</span>
+        </p>
+        <p class="lede" data-layer="Deskripsi singkat" data-type>
+          Saya merancang dan membangun <b>aplikasi web modern</b> serta <b>aplikasi Android native</b> yang cepat, responsif, dan nyaman dipakai setiap hari—dari antarmuka hingga arsitektur backend.
+        </p>
+        <div class="cta">
+          <a class="btn pri" href="#work" data-layer="Tombol Lihat Karya">
+            <span>Lihat Karya</span>
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </a>
+          <a class="btn" href="#contact" data-layer="Tombol Hubungi Saya">
+            <span>Hubungi Saya</span>
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8">
+              <rect x="2" y="3.5" width="12" height="9" rx="1.5" />
+              <path d="M2.5 4.5 8 9l5.5-4.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <figure class="portrait" data-layer-box="Avatar Kirana">
+        <div class="pwrap">
+          <div class="disc" id="portraitDisc" data-layer="Bingkai potret">
+            <!-- Stylized developer vector portrait -->
+            <svg viewBox="0 0 400 400" class="avatar-svg" role="img" aria-label="Ilustrasi Kirana">
+              <defs>
+                <radialGradient id="avBg" cx="50%" cy="38%" r="65%">
+                  <stop offset="0%" stop-color="rgba(255,255,255,0.28)" />
+                  <stop offset="100%" stop-color="rgba(0,0,0,0.18)" />
+                </radialGradient>
+              </defs>
+              <rect width="400" height="400" fill="url(#avBg)" />
+              <!-- Subtle code brackets in background -->
+              <g opacity="0.16" fill="#050506" font-family="monospace" font-weight="800" font-size="44">
+                <text x="42" y="110">&lt;/&gt;</text>
+                <text x="275" y="135">{ }</text>
+              </g>
+              <!-- Hoodie & shoulders -->
+              <path d="M72 405c8-78 52-122 128-122s120 44 128 122Z" fill="#121216" />
+              <path d="M142 292c18 28 38 40 58 40s40-12 58-40" fill="none" stroke="#2c2c34" stroke-width="6" stroke-linecap="round" />
+              <!-- Hoodie strings -->
+              <path d="M168 320v54M232 320v46" stroke="#f4f2ec" stroke-width="4" stroke-linecap="round" opacity="0.7" />
+              <!-- Neck -->
+              <rect x="176" y="236" width="48" height="58" rx="20" fill="#c78b63" />
+              <path d="M176 254c16 14 32 14 48 0v-18h-48Z" fill="#9f6845" opacity="0.55" />
+              <!-- Head -->
+              <rect x="136" y="102" width="128" height="156" rx="60" fill="#d89b72" />
+              <!-- Ears -->
+              <circle cx="135" cy="184" r="14" fill="#c78b63" />
+              <circle cx="265" cy="184" r="14" fill="#c78b63" />
+              <!-- Hair -->
+              <path d="M132 162c-4-48 24-82 70-82 44 0 72 30 66 80-8-22-24-34-42-36-18-2-36 8-58 4-16-3-28 14-36 34Z" fill="#131318" />
+              <path d="M150 96c24-18 68-18 96 4" fill="none" stroke="#292933" stroke-width="6" stroke-linecap="round" />
+              <!-- Eyebrows -->
+              <path d="M156 156c10-6 22-6 30-2M214 154c8-4 20-4 30 2" fill="none" stroke="#18181e" stroke-width="5.5" stroke-linecap="round" />
+              <!-- Glasses -->
+              <g fill="rgba(14,14,17,0.16)" stroke="#141418" stroke-width="5">
+                <rect x="148" y="164" width="44" height="32" rx="9" />
+                <rect x="208" y="164" width="44" height="32" rx="9" />
+                <path d="M192 178h16" />
+              </g>
+              <!-- Eyes -->
+              <circle cx="170" cy="180" r="5" fill="#111" />
+              <circle cx="230" cy="180" r="5" fill="#111" />
+              <circle cx="172" cy="178" r="1.6" fill="#fff" />
+              <circle cx="232" cy="178" r="1.6" fill="#fff" />
+              <!-- Nose & confident smile -->
+              <path d="M200 182v22l-6 5" fill="none" stroke="#ad734e" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M182 222c12 10 26 10 38-1" fill="none" stroke="#754128" stroke-width="4.5" stroke-linecap="round" />
+              <!-- Laptop / phone mini accent -->
+              <rect x="142" y="346" width="116" height="58" rx="8" fill="#1b1b22" stroke="#3b3b47" stroke-width="3" />
+              <circle cx="200" cy="375" r="7" fill="var(--acc)" />
+            </svg>
+          </div>
+          <span class="tagline" data-layer="Tagline potret">Web &amp; Android Builder</span>
+        </div>
+      </figure>
+
+      <aside class="now" data-layer-box="Sedang dikerjakan">
+        <h2 data-layer="Judul sidebar" data-type>Sedang dikerjakan</h2>
+        <ul>
+          <li data-layer="Proyek aktif 1">
+            <strong>Dashboard SaaS Multi-Tenant</strong>
+            <span>Arsitektur Next.js + TypeScript dengan kontrol akses berbasis peran.</span>
+          </li>
+          <li data-layer="Proyek aktif 2">
+            <strong>SakuCatat Android v2</strong>
+            <span>Sinkronisasi cloud &amp; widget layar utama berbasis Jetpack Compose.</span>
+          </li>
+          <li data-layer="Proyek aktif 3">
+            <strong>Design System Lintas Platform</strong>
+            <span>Token UI konsisten antara web app dan aplikasi Android Material 3.</span>
+          </li>
+        </ul>
+      </aside>
+
+      <div class="stats" data-layer-box="Statistik utama">
+        <div class="stat" data-layer="Statistik 1">
+          <b>25+</b>
+          <span>Proyek web &amp; Android<br />yang sudah dirilis</span>
+        </div>
+        <div class="stat" data-layer="Statistik 2">
+          <b>4+ thn</b>
+          <span>Pengalaman membangun<br />produk digital</span>
+        </div>
+        <div class="stat" data-layer="Statistik 3">
+          <b>2</b>
+          <span>Fokus utama:<br />Web &amp; Android</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="sec about" id="about">
+      <div class="about-copy" data-layer-box="Tentang saya">
+        <span class="kicker" data-layer="Label Tentang">Tentang</span>
+        <h2 data-layer="Judul Tentang" data-type>Cara saya bekerja</h2>
+        <p data-layer="Paragraf Tentang 1">
+          Saya <b>Kirana</b>, seorang programmer yang fokus membangun produk di dua dunia: <b>web modern</b> dan <b>Android native</b>. Saya suka mengubah ide yang masih mentah menjadi aplikasi yang terasa ringan, jelas alurnya, dan mudah dirawat jangka panjang.
+        </p>
+        <p data-layer="Paragraf Tentang 2">
+          Di sisi web, saya terbiasa menangani antarmuka interaktif hingga REST/GraphQL API dan basis data. Di sisi Android, saya membangun aplikasi dengan Kotlin dan Jetpack Compose yang responsif, hemat baterai, dan tetap andal meski kondisi jaringan kurang stabil.
+        </p>
+        <p class="quote" data-layer="Prinsip kerja">
+          "Kode yang baik bukan cuma jalan hari ini—tapi cepat dipahami, aman diskalakan, dan enak dipakai pengguna."
+        </p>
+      </div>
+
+      <ol class="time" data-layer-box="Linimasa">
+        <li data-layer="Timeline 2022">
+          <b>2022</b>
+          <span>Memulai perjalanan pemrograman lewat HTML, CSS, JavaScript, dan membuat situs interaktif pertama.</span>
+        </li>
+        <li data-layer="Timeline 2023">
+          <b>2023</b>
+          <span>Mendalami React, Next.js, Node.js, dan database relasional untuk membangun aplikasi web full-stack.</span>
+        </li>
+        <li data-layer="Timeline 2024">
+          <b>2024</b>
+          <span>Berekspansi ke pengembangan Android menggunakan Kotlin, Jetpack Compose, dan arsitektur MVVM/Clean.</span>
+        </li>
+        <li data-layer="Timeline 2025-2026">
+          <b>2025–26</b>
+          <span>Menangani proyek end-to-end lintas web &amp; Android untuk produk bisnis, otomasi, dan aplikasi utilitas.</span>
+        </li>
+      </ol>
+    </section>
+
+    <!-- WORK -->
+    <section class="sec" id="work">
+      <div class="sec-head" data-layer-box="Header Karya">
+        <span class="kicker" data-layer="Label Karya">Karya Pilihan</span>
+        <h2 data-layer="Judul Karya" data-type>Aplikasi yang pernah saya bangun</h2>
+        <p class="sub" data-layer="Subjudul Karya" data-type>
+          Tiga aplikasi web untuk produktivitas &amp; bisnis, dan tiga aplikasi Android yang dirancang untuk penggunaan harian.
+        </p>
+      </div>
+
+      <div class="cards">
+        <!-- Card 1: Web -->
+        <article class="card" data-layer="Kartu KasirFlow">
+          <div class="thumb">
+            <svg viewBox="0 0 360 200" aria-hidden="true">
+              <rect x="28" y="24" width="304" height="152" rx="10" fill="#0b0b0e" stroke="rgba(244,242,236,0.22)" />
+              <circle cx="46" cy="40" r="4" fill="#ff5f56" />
+              <circle cx="60" cy="40" r="4" fill="#ffbd2e" />
+              <circle cx="74" cy="40" r="4" fill="#27c93f" />
+              <line x1="28" y1="54" x2="332" y2="54" stroke="rgba(244,242,236,0.12)" />
+              <rect x="46" y="72" width="76" height="84" rx="6" fill="rgba(244,242,236,0.05)" />
+              <rect x="56" y="84" width="44" height="8" rx="3" fill="var(--acc)" />
+              <rect x="56" y="102" width="56" height="6" rx="3" fill="rgba(244,242,236,0.25)" />
+              <rect x="56" y="116" width="40" height="6" rx="3" fill="rgba(244,242,236,0.18)" />
+              <path class="svg-draw" d="M142 142 L176 116 L210 126 L248 92 L286 102 L314 74" fill="none" stroke="var(--acc)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+              <circle class="svg-pulse" cx="314" cy="74" r="5" fill="var(--acc)" />
+            </svg>
+          </div>
+          <div class="card-body">
+            <span class="kind">Web App</span>
+            <h3>KasirFlow</h3>
+            <p>Sistem kasir dan analitik penjualan real-time multi-cabang dengan laporan stok otomatis.</p>
+            <div class="tags">
+              <span>Next.js</span>
+              <span>TypeScript</span>
+              <span>PostgreSQL</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 2: Web -->
+        <article class="card" data-layer="Kartu RuangKolab">
+          <div class="thumb">
+            <svg viewBox="0 0 360 200" aria-hidden="true">
+              <rect x="34" y="30" width="88" height="140" rx="8" fill="#0b0b0e" stroke="rgba(244,242,236,0.2)" />
+              <rect x="136" y="30" width="88" height="140" rx="8" fill="#0b0b0e" stroke="rgba(244,242,236,0.2)" />
+              <rect x="238" y="30" width="88" height="140" rx="8" fill="#0b0b0e" stroke="rgba(244,242,236,0.2)" />
+              <rect x="46" y="46" width="40" height="7" rx="3" fill="rgba(244,242,236,0.35)" />
+              <rect x="148" y="46" width="44" height="7" rx="3" fill="var(--acc)" />
+              <rect x="250" y="46" width="38" height="7" rx="3" fill="rgba(244,242,236,0.35)" />
+              <rect x="44" y="66" width="68" height="32" rx="5" fill="rgba(244,242,236,0.08)" />
+              <rect x="44" y="106" width="68" height="32" rx="5" fill="rgba(244,242,236,0.08)" />
+              <rect class="svg-float" x="146" y="66" width="68" height="36" rx="5" fill="rgba(255,255,255,0.08)" stroke="var(--acc)" stroke-width="2" />
+              <rect x="248" y="66" width="68" height="32" rx="5" fill="rgba(244,242,236,0.08)" />
+            </svg>
+          </div>
+          <div class="card-body">
+            <span class="kind">Web App</span>
+            <h3>RuangKolab</h3>
+            <p>Papan kanban &amp; catatan tim kolaboratif dengan sinkronisasi instan lewat WebSocket.</p>
+            <div class="tags">
+              <span>React</span>
+              <span>WebSocket</span>
+              <span>Tailwind CSS</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 3: Web -->
+        <article class="card" data-layer="Kartu DocsPulse">
+          <div class="thumb">
+            <svg viewBox="0 0 360 200" aria-hidden="true">
+              <rect x="48" y="32" width="264" height="36" rx="18" fill="#0b0b0e" stroke="var(--acc)" stroke-width="2" />
+              <circle cx="72" cy="50" r="8" fill="none" stroke="var(--acc)" stroke-width="2.2" />
+              <line x1="78" y1="56" x2="84" y2="62" stroke="var(--acc)" stroke-width="2.2" stroke-linecap="round" />
+              <rect x="96" y="46" width="110" height="8" rx="4" fill="rgba(244,242,236,0.45)" />
+              <rect x="48" y="84" width="264" height="24" rx="6" fill="rgba(244,242,236,0.06)" />
+              <rect x="48" y="116" width="264" height="24" rx="6" fill="rgba(244,242,236,0.06)" />
+              <rect x="48" y="148" width="204" height="24" rx="6" fill="rgba(244,242,236,0.06)" />
+              <rect x="60" y="92" width="84" height="8" rx="3" fill="var(--acc)" />
+              <rect x="60" y="124" width="140" height="8" rx="3" fill="rgba(244,242,236,0.3)" />
+              <rect x="60" y="156" width="110" height="8" rx="3" fill="rgba(244,242,236,0.22)" />
+            </svg>
+          </div>
+          <div class="card-body">
+            <span class="kind">Web App</span>
+            <h3>DocsPulse</h3>
+            <p>Portal dokumentasi developer super cepat dengan pencarian instan dan preview API interaktif.</p>
+            <div class="tags">
+              <span>TypeScript</span>
+              <span>Node.js</span>
+              <span>REST API</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 4: Android -->
+        <article class="card" data-layer="Kartu SakuCatat">
+          <div class="thumb">
+            <svg viewBox="0 0 360 200" aria-hidden="true">
+              <rect x="132" y="18" width="96" height="164" rx="18" fill="#0b0b0e" stroke="rgba(244,242,236,0.5)" stroke-width="2.2" />
+              <rect x="164" y="26" width="32" height="5" rx="2.5" fill="rgba(244,242,236,0.3)" />
+              <rect x="144" y="44" width="72" height="44" rx="8" fill="var(--acc)" />
+              <rect x="152" y="54" width="36" height="6" rx="3" fill="#050506" opacity="0.55" />
+              <rect x="152" y="66" width="54" height="10" rx="3" fill="#050506" />
+              <circle cx="180" cy="126" r="24" fill="none" stroke="rgba(244,242,236,0.16)" stroke-width="9" />
+              <circle class="svg-spin" cx="180" cy="126" r="24" fill="none" stroke="var(--acc)" stroke-width="9" stroke-dasharray="92 160" stroke-linecap="round" />
+            </svg>
+          </div>
+          <div class="card-body">
+            <span class="kind">Android</span>
+            <h3>SakuCatat</h3>
+            <p>Aplikasi pencatat keuangan pribadi offline-first dengan grafik anggaran dan pengingat harian.</p>
+            <div class="tags">
+              <span>Kotlin</span>
+              <span>Jetpack Compose</span>
+              <span>Room DB</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 5: Android -->
+        <article class="card" data-layer="Kartu HadirKu">
+          <div class="thumb">
+            <svg viewBox="0 0 360 200" aria-hidden="true">
+              <circle cx="180" cy="100" r="72" fill="none" stroke="rgba(244,242,236,0.16)" stroke-width="1.5" />
+              <circle cx="180" cy="100" r="46" fill="none" stroke="rgba(244,242,236,0.22)" stroke-width="1.5" />
+              <circle class="svg-radar" cx="180" cy="100" r="22" fill="none" stroke="var(--acc)" stroke-width="2" />
+              <path d="M180 62c-16 0-28 12-28 28 0 21 28 48 28 48s28-27 28-48c0-16-12-28-28-28Z" fill="var(--acc)" />
+              <circle cx="180" cy="90" r="9" fill="#050506" />
+            </svg>
+          </div>
+          <div class="card-body">
+            <span class="kind">Android</span>
+            <h3>HadirKu</h3>
+            <p>Aplikasi presensi tim berbasis geofencing GPS dengan verifikasi cepat dan rekap shift.</p>
+            <div class="tags">
+              <span>Kotlin</span>
+              <span>Coroutines</span>
+              <span>Maps SDK</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 6: Android -->
+        <article class="card" data-layer="Kartu FokusMode">
+          <div class="thumb">
+            <svg viewBox="0 0 360 200" aria-hidden="true">
+              <circle cx="180" cy="100" r="64" fill="#0b0b0e" stroke="rgba(244,242,236,0.2)" stroke-width="2" />
+              <circle cx="180" cy="100" r="50" fill="none" stroke="rgba(244,242,236,0.1)" stroke-width="8" />
+              <circle class="svg-timer" cx="180" cy="100" r="50" fill="none" stroke="var(--acc)" stroke-width="8" stroke-dasharray="235 320" stroke-linecap="round" transform="rotate(-90 180 100)" />
+              <text x="180" y="109" text-anchor="middle" fill="#f4f2ec" font-family="Big Shoulders Display, sans-serif" font-weight="900" font-size="34">25:00</text>
+            </svg>
+          </div>
+          <div class="card-body">
+            <span class="kind">Android</span>
+            <h3>FokusMode</h3>
+            <p>Timer fokus Material 3 dengan statistik sesi belajar/kerja dan mode senyap otomatis.</p>
+            <div class="tags">
+              <span>Android</span>
+              <span>Material 3</span>
+              <span>WorkManager</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- STACK -->
+    <section class="sec" id="stack">
+      <div class="sec-head" data-layer-box="Header Stack">
+        <span class="kicker" data-layer="Label Stack">Teknologi</span>
+        <h2 data-layer="Judul Stack" data-type>Perkakas yang saya gunakan</h2>
+      </div>
+
+      <div class="stack" data-layer-box="Daftar Stack">
+        <div class="row" data-layer="Baris Web">
+          <h3>Web Development</h3>
+          <div class="chips">
+            <span class="hot" data-layer="Chip Next.js">Next.js</span>
+            <span data-layer="Chip React">React</span>
+            <span class="hot" data-layer="Chip TypeScript">TypeScript</span>
+            <span data-layer="Chip Tailwind">Tailwind CSS</span>
+            <span data-layer="Chip Node">Node.js</span>
+            <span data-layer="Chip PostgreSQL">PostgreSQL</span>
+            <span data-layer="Chip Prisma">Prisma</span>
+          </div>
+        </div>
+
+        <div class="row" data-layer="Baris Android">
+          <h3>Android Development</h3>
+          <div class="chips">
+            <span class="hot" data-layer="Chip Kotlin">Kotlin</span>
+            <span class="hot" data-layer="Chip Compose">Jetpack Compose</span>
+            <span data-layer="Chip Android SDK">Android SDK</span>
+            <span data-layer="Chip Room">Room DB</span>
+            <span data-layer="Chip Retrofit">Retrofit</span>
+            <span data-layer="Chip Material3">Material 3</span>
+          </div>
+        </div>
+
+        <div class="row" data-layer="Baris Pendukung">
+          <h3>Arsitektur &amp; Workflow</h3>
+          <div class="chips">
+            <span data-layer="Chip Git">Git &amp; GitHub</span>
+            <span data-layer="Chip Docker">Docker</span>
+            <span data-layer="Chip Firebase">Firebase</span>
+            <span data-layer="Chip REST">REST &amp; GraphQL</span>
+            <span data-layer="Chip Figma">Figma</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="sec contact" id="contact">
+      <div class="swarm-stage" id="swarmStage" data-layer="Swarm kursor nama KIRANA">
+        <canvas id="nameSwarmCanvas" aria-label="Banyak kursor interaktif berbentuk nama KIRANA"></canvas>
+        <span class="swarm-hint">Geser atau tarik kursor di area nama ini</span>
+      </div>
+      <div class="swarm-end" data-layer-box="Ajakan Kontak">
+        <span class="kicker" data-layer="Label Kontak">Kontak</span>
+        <h2 data-layer="Judul Kontak" data-type>Ada proyek web atau Android yang ingin dibangun?</h2>
+        <p class="sub" data-layer="Subjudul Kontak">
+          Saya terbuka untuk pembuatan aplikasi web, aplikasi Android, konsultasi teknis, maupun kolaborasi produk digital.
+        </p>
+        <div class="cta contact-cta">
+          <a class="btn pri" href="mailto:halo@kirana.dev" data-layer="Tombol Email">
+            <span>Kirim Email</span>
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </a>
+          <a class="btn" href="https://github.com/" target="_blank" rel="noreferrer" data-layer="Tombol GitHub">GitHub</a>
+          <a class="btn" href="https://linkedin.com/" target="_blank" rel="noreferrer" data-layer="Tombol LinkedIn">LinkedIn</a>
+        </div>
+        <p class="foot" id="footNote" data-layer="Catatan penutup">
+          Halaman ini disusun langsung oleh 18 kursor agen. Tekan <kbd>R</kbd> untuk memutar ulang, atau <kbd>A</kbd> untuk auto-scroll.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Floating HUD Dock -->
+  <div class="hud" id="hud" role="region" aria-label="Kontrol animasi build">
+    <div class="hud-dots" aria-hidden="true">
+      <i style="background:#ff6b6b"></i>
+      <i style="background:#f59e0b"></i>
+      <i style="background:#fff313"></i>
+      <i style="background:#4ade80"></i>
+      <i style="background:#2dd4bf"></i>
+    </div>
+    <span class="hud-meta hide-s">18 agen</span>
+    <span class="hud-layers" id="hudLayers">0 / 108 layer</span>
+    <div class="hud-bar" aria-hidden="true"><i id="hudFill"></i></div>
+    <span class="hud-st" id="hudStatus">Siap</span>
+
+    <div class="hud-btns">
+      <button type="button" class="go" id="btnPlay" title="Mulai atau jeda (Space)">
+        <svg class="ic-play" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M4.5 2.8v10.4L13 8 4.5 2.8Z" />
+        </svg>
+        <svg class="ic-pause" viewBox="0 0 16 16" fill="currentColor">
+          <rect x="4" y="3" width="3" height="10" rx="1" />
+          <rect x="9" y="3" width="3" height="10" rx="1" />
+        </svg>
+      </button>
+      <button type="button" class="tog on hide-s" id="btnAuto" title="Auto-scroll aktif/nonaktif (A)">Auto</button>
+      <button type="button" id="btnSpeed" title="Kecepatan animasi (1x / 2x / 0.5x)">1x</button>
+      <button type="button" id="btnSound" title="Suara efek (M)">
+        <svg class="ic-sound-off" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6">
+          <path d="M2.5 6.2H5l3.5-3v9.6l-3.5-3H2.5V6.2Z" stroke-linejoin="round" />
+          <path d="m11 6 3 4M14 6l-3 4" stroke-linecap="round" />
+        </svg>
+        <svg class="ic-sound-on" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6">
+          <path d="M2.5 6.2H5l3.5-3v9.6l-3.5-3H2.5V6.2Z" stroke-linejoin="round" />
+          <path d="M11 5.5a3.5 3.5 0 0 1 0 5M12.8 3.8a6 6 0 0 1 0 8.4" stroke-linecap="round" />
+        </svg>
+      </button>
+      <button type="button" id="btnReplay" title="Putar ulang (R)">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7">
+          <path d="M13 8a5 5 0 1 1-1.5-3.5L13 6" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M13 2.8V6H9.8" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+      <button type="button" class="hide-s" id="btnSkip" title="Langsung tampilkan semua (S)">Skip</button>
+    </div>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
